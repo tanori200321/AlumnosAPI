@@ -18,14 +18,14 @@ namespace AlumnosAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Alumno>>> GetAlumnos() 
         {
-            var alumnos = await context.Alumnos.ToListAsync();
+            var alumnos = await context.Alumnos.Include(Alumno => Alumno.Materias).ToListAsync();
             return alumnos;
         }
 
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Alumno>> GetAlumno(int id)
         {
-            var alumno = await context.Alumnos
+            var alumno = await context.Alumnos.Include(Alumno => Alumno.Materias)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (alumno == null) 
